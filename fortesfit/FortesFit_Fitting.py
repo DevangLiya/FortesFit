@@ -152,13 +152,16 @@ def	Sawicki12_loglikelihood(redshift,filters,fluxes,flux_errors,error_weights,mo
 	for imodel,model in enumerate(models):
 		for i,filter in enumerate(filters):
 			current_flux = 3.63e-5*10**(model.evaluate(parameters[imodel],redshift,filter.filterid))	# Include scaling from STMAG=0
+
+			# if this model and filter combination is to be scaled, scale the current_flux before adding,
+			# otherwise this does nothing
 			if model.modelid in model_scaling:
 				if filter.filterid in model_scaling[model.modelid]:
 					# apply scaling to this filter in this model
-					modelFluxes[i] = modelFluxes[i] + (current_flux * scaling_constant / aperture_scaling[filter.filterid])
-					# print(f"{filter.filterid}: {scaling_constant}, {scaling_constant / aperture_scaling[filter.filterid]}")
-				else:
-					modelFluxes[i] = modelFluxes[i] + current_flux
+					current_flux = current_flux * scaling_constant / aperture_scaling[filter.filterid]
+
+			# add current_flux regardless of whether it was modified or not
+			modelFluxes[i] = modelFluxes[i] + current_flux
 	
 	loglike_det = 0.0
 	index, = np.where(flux_errors > 0.0) # Detections, supplied errors are positive
