@@ -82,8 +82,8 @@ def	Multinest_cleanup(outputfiles_basename='fortesfit_'):
 	"""
 
 	outputfiles_basename = 'multinest_output/'+outputfiles_basename # Include the MultiNest working directory
-	mnfiles = glob.glob(outputfiles_basename+'*')
-	for file in mnfiles:
-		os.remove(file)
+	file_suffix = [".txt", "ev.dat", "IS.iterinfo", "IS.points", "IS.ptprob", "live.points", "phys_live.points", "post_equal_weights.dat", "resume.dat", "stats.dat", "summary.txt"]
+	for suffix in file_suffix:
+		os.remove(f"{outputfiles_basename}{suffix}")
 	
 
