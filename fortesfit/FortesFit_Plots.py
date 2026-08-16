@@ -567,8 +567,6 @@ def	PlotPosteriors(FortesFit_OutFile, BurnIn = 0, old=False):
 		
 			if (iparam % 9 == 0):
 				# Reset the plotting window
-				xstart = 0
-				ystart = 0
 				fig = plt.figure(figsize=(8,8)) # A large plotting window, for 3x3 = 9 parameters per plot
 				fig.text(0.5,0.95,modelname,ha='center')
 				if iparam != 0:
@@ -577,7 +575,7 @@ def	PlotPosteriors(FortesFit_OutFile, BurnIn = 0, old=False):
 					plt.close()
 
 			xstart = iparam % 3
-			ystart = int(iparam / 3)
+			ystart = int((iparam % 9)/ 3)
 			ax = fig.add_axes([0.08+xstart*(0.8/3+0.03),0.95-(ystart+1)*0.8/3-0.05,0.8/3,0.6/3])			
 
 			if iparam == 0:
